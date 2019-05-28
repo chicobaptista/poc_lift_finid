@@ -1,6 +1,8 @@
 package com.template.flow
 
 import co.paralleluniverse.fibers.Suspendable
+import com.template.contract.AccountContract
+import com.template.contract.TransferContract
 import net.corda.core.contracts.Command
 import net.corda.core.contracts.requireThat
 import net.corda.core.flows.*
@@ -13,7 +15,6 @@ import net.corda.core.utilities.unwrap
 
 import com.template.model.TransferModel
 import com.template.state.TransferState
-import tech.bluchain.democordanodes.flow.BaseFlow
 import java.time.Instant
 
 // flow start TransferFlow accountFromId: 37144a4a-c591-4cc0-bd16-d7d2d6f72971, orgTo: OrgB, to: f120697c-b454-491e-bda4-bbd61675054d, amount: 100.00
@@ -26,7 +27,9 @@ object Transfer {
         val accountFromId: String,
         val orgTo: Party,
         val to: String,
-        val amount: Double
+        val amount: Double,
+        val message: String,
+        val signature: String
     ) : BaseFlow() {
 
         companion object {
@@ -90,7 +93,18 @@ object Transfer {
             )
 
             // define uma conta
-            val transfer = TransferModel(ourIdentity, this.accountFromId, oldAccountState.account.name, this.orgTo, this.to, nameTo, Instant.now(), this.amount)
+            val transfer = TransferModel(
+                    orgFrom = ourIdentity,
+                    accountFrom = this.accountFromId,
+                    accountFromName = oldAccountState.account.name,
+                    orgTo = this.orgTo,
+                    accountTo = this.to,
+                    accountToName = nameTo,
+                    createTime = Instant.now(),
+                    amount = this.amount,
+                    pubkey = oldAccountState.account.pubkey,
+                    message = message,
+                    signature = signature)
 
             // cria o state
             val transferState = TransferState(transfer)

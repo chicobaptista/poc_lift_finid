@@ -18,6 +18,7 @@ object CreateAccount {
     @StartableByRPC
     class CreateAccountFlow(
             val uid : String,
+            val name: String,
             val pubkey : String,
             val message: String,
             val signature: String,
@@ -61,7 +62,18 @@ object CreateAccount {
             }
 
             // define uma conta
-            val account = AccountModel(ourIdentity, ourIdentity.name.organisation, Instant.now(), uid, pubkey, message, signature, currency, balance, status)
+            val account = AccountModel(
+                    entity = ourIdentity,
+                    entityName = ourIdentity.name.organisation,
+                    createTime = Instant.now(),
+                    name = name,
+                    uid = uid,
+                    pubkey = pubkey,
+                    message = message,
+                    signature = signature,
+                    currency = currency,
+                    balance = balance,
+                    status = status)
 
             // cria o state
             val accountState = AccountState(account)

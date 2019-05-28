@@ -9,6 +9,7 @@ data class AccountModel(
     val entity : Party,
     val entityName : String,
     val createTime : Instant,
+    val name : String,
     val uid : String,
     val pubkey : String,
     val message: String,
