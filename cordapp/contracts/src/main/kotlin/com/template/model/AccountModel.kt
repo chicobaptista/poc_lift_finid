@@ -11,15 +11,6 @@ data class AccountModel(
     val createTime : Instant,
     val name : String,
     val uid : String,
-    val pubkey : String,
-    val message: String,
-    val signature: String,
-    val currency : String,
-    val balance : Double,
-    val status : StatusEnum
+    val did : String,
+    val balance : Double
 )
-
-@CordaSerializable
-enum class StatusEnum {
-    CREATED, VALIDATED
-}

@@ -1,13 +1,8 @@
-package com.template.model.debit
+package com.template.model
 
-import java.security.Signature
-
-data class CreateRequestModel (
+data class AccountRequestModel (
         val uid : String,
-        val pubkey : String,
-        val currency : String,
-        val hashProfile : String,
-        val balance : Double,
-        val message: String,
-        val signature: String
+        val name : String,
+        val did : String,
+        val balance : Double
 )

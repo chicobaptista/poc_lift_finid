@@ -2,6 +2,7 @@ package com.template.webserver.controllers
 
 import com.template.flow.CreateAccount
 import com.template.model.AccountModel
+import com.template.model.AccountRequestModel
 import com.template.schema.AccountSchemaV1
 import com.template.state.AccountState
 import com.template.webserver.NodeRPCConnection
@@ -28,14 +29,14 @@ class Controller(rpc: NodeRPCConnection) {
 
     private val proxy = rpc.proxy
 
-    @GetMapping(value = "/templateendpoint", produces = arrayOf("text/plain"))
+    @GetMapping(value = ["/templateendpoint"], produces = arrayOf("text/plain"))
     private fun templateendpoint(): String {
         return "Define an endpoint here."
     }
 
     @CrossOrigin
-    @PostMapping(value = "/create-account", produces = arrayOf(MediaType.APPLICATION_JSON), consumes = arrayOf(MediaType.APPLICATION_JSON))
-    fun createDebit(@RequestBody data: AccountModel): Response {
+    @PostMapping(value = ["/create-account"], produces = arrayOf(MediaType.APPLICATION_JSON), consumes = arrayOf(MediaType.APPLICATION_JSON))
+    fun createAccount(@RequestBody data: AccountRequestModel): Response {
 
         val indexUid = AccountSchemaV1.PersistentAccount::uid.equal(data.uid)
         val criteria = QueryCriteria.VaultCustomQueryCriteria(expression = indexUid)
@@ -51,7 +52,7 @@ class Controller(rpc: NodeRPCConnection) {
 
         return try {
 
-            val signedTx = proxy.startTrackedFlow(CreateAccount::CreateAccountFlow, data.uid, data.pubkey, data.currency, data.hashProfile, data.message, data.signature).returnValue.getOrThrow()
+            val signedTx = proxy.startTrackedFlow(CreateAccount::CreateAccountFlow, data.uid, data.name, data.did, data.balance).returnValue.getOrThrow()
 
             Response.status(Response.Status.CREATED).entity( signedTx.tx.outputs.single() ).build()
 
@@ -62,4 +63,10 @@ class Controller(rpc: NodeRPCConnection) {
         }
     }
 
+
+    @CrossOrigin
+    @PostMapping(value = ["/make-transfer"], produces = arrayOf(MediaType.APPLICATION_JSON), consumes = arrayOf(MediaType.APPLICATION_JSON))
+    fun transferAmount(@RequestBody data: AccountRequestModel): Response {
+
+    }
 }

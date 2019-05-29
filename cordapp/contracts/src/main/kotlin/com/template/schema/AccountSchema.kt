@@ -1,6 +1,5 @@
 package com.template.schema
 
-import com.template.model.StatusEnum
 import net.corda.core.identity.Party
 import net.corda.core.schemas.MappedSchema
 import net.corda.core.schemas.PersistentState
@@ -24,13 +23,10 @@ object AccountSchemaV1 : MappedSchema(
     class PersistentAccount(
 
         @Column(name = "uid")
-        var uid: String,
-
-        @Column(name = "status")
-        var status: StatusEnum
+        var uid: String
 
     ) : PersistentState() {
         // Default constructor required by hibernate.
-        constructor(): this(uid = "", status = StatusEnum.CREATED)
+        constructor(): this(uid = "")
     }
 }

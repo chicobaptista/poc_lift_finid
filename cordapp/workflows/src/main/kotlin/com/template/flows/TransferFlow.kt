@@ -13,6 +13,9 @@ import net.corda.core.utilities.ProgressTracker
 import net.corda.core.utilities.UntrustworthyData
 import net.corda.core.utilities.unwrap
 
+import okhttp3.OkHttpClient
+import okhttp3.Request
+
 import com.template.model.TransferModel
 import com.template.state.TransferState
 import java.time.Instant
@@ -28,8 +31,7 @@ object Transfer {
         val orgTo: Party,
         val to: String,
         val amount: Double,
-        val message: String,
-        val signature: String
+        val did: String
     ) : BaseFlow() {
 
         companion object {
@@ -64,6 +66,13 @@ object Transfer {
 
             // define progresso
             progressTracker.currentStep = INITIALISING
+
+            // testar se a DID informada está correta
+//            val validateUrl = "" // ????
+//
+//            val httpRequest = Request.Builder().url(validateUrl).build()
+//            val httpResponse = OkHttpClient().newCall(httpRequest).execute()
+//            if (httpResponse.body(result).equals(false)) { throw Exception("DID Inválida") }
 
             // criando uma sessao com o nó de destino
             val sessionTo = initiateFlow(this.orgTo)
@@ -102,9 +111,7 @@ object Transfer {
                     accountToName = nameTo,
                     createTime = Instant.now(),
                     amount = this.amount,
-                    pubkey = oldAccountState.account.pubkey,
-                    message = message,
-                    signature = signature)
+                    did = this.did)
 
             // cria o state
             val transferState = TransferState(transfer)
