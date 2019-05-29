@@ -83,9 +83,7 @@ dependencies {
     cordaCompile "org.apache.logging.log4j:log4j-slf4j-impl:${log4j_version}"
     cordaCompile "org.apache.logging.log4j:log4j-web:${log4j_version}"
     cordaCompile "org.slf4j:jul-to-slf4j:$slf4j_version"
-
-    cordapp "com.github.Luxoft.cordentity:cordapp:0.4.11"
-    cordapp "com.github.Luxoft.cordentity:cordapp-contracts-states:0.4.11"
+    
 }
 
 cordapp {
