@@ -14,9 +14,7 @@ data class TransferModel(
     val accountToName : String,
     val createTime : Instant,
     val amount : Double,
-    val pubkey : String,
-    val message: String,
-    val signature: String
+    val did : String
 )
 
 /*

@@ -8,7 +8,6 @@ import net.corda.core.transactions.SignedTransaction
 import net.corda.core.transactions.TransactionBuilder
 import net.corda.core.utilities.ProgressTracker
 import com.template.model.AccountModel
-import com.template.model.StatusEnum
 import com.template.state.AccountState
 import java.time.Instant
 
@@ -19,12 +18,8 @@ object CreateAccount {
     class CreateAccountFlow(
             val uid : String,
             val name: String,
-            val pubkey : String,
-            val message: String,
-            val signature: String,
-            val currency : String,
-            val balance : Double,
-            val status : StatusEnum
+            val did : String,
+            val balance : Double
     ) : BaseFlow() {
 
         companion object {
@@ -56,6 +51,14 @@ object CreateAccount {
             // define progresso
             progressTracker.currentStep = INITIALISING
 
+            // testar se a DID informada está correta
+//            val validateUrl = "" // ????
+//
+//            val httpRequest = Request.Builder().url(validateUrl).build()
+//            val httpResponse = OkHttpClient().newCall(httpRequest).execute()
+//            if (httpResponse.body(result).equals(false)) { throw Exception("DID Inválida") }
+
+
             val accountList = getAccountStateByDocument(this.uid)
             if (accountList.isNotEmpty()) {
                 throw Exception("Conta existente")
@@ -68,12 +71,8 @@ object CreateAccount {
                     createTime = Instant.now(),
                     name = name,
                     uid = uid,
-                    pubkey = pubkey,
-                    message = message,
-                    signature = signature,
-                    currency = currency,
-                    balance = balance,
-                    status = status)
+                    did = did,
+                    balance = balance)
 
             // cria o state
             val accountState = AccountState(account)

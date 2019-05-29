@@ -22,9 +22,7 @@ data class AccountState(val account: AccountModel,
 
         return when (schema) {
             is AccountSchemaV1 -> AccountSchemaV1.PersistentAccount(
-                    this.account.uid,
-                    this.account.status
-            )
+                    this.account.uid)
             else -> throw IllegalArgumentException("Unrecognised schema $schema")
         }
 

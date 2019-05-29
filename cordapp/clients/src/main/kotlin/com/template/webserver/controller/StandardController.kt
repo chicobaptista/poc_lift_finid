@@ -15,7 +15,7 @@ import java.util.*
 import javax.ws.rs.core.MediaType.APPLICATION_JSON
 import javax.ws.rs.core.Response
 
-import reactor.core.publisher.Flux
+//import reactor.core.publisher.Flux
 
 /**
  * Define your API endpoints here.
@@ -46,35 +46,39 @@ class StandardController(private val rpc: NodeRPCConnection) {
     private val proxy = rpc.proxy
 
 
-    @GetMapping(value = "me", produces = arrayOf(APPLICATION_JSON))
+    @GetMapping(value = ["me"], produces = arrayOf(APPLICATION_JSON))
     fun whoami() = mapOf("me" to myLegalName)
 
-    @GetMapping(value = "/status", produces = arrayOf("text/plain"))
+    @GetMapping(value = ["/status"], produces = arrayOf("text/plain"))
     private fun status() = "200"
 
-    @GetMapping(value = "/servertime", produces = arrayOf("text/plain"))
+    @GetMapping(value = ["/servertime"], produces = arrayOf("text/plain"))
     private fun serverTime() = LocalDateTime.ofInstant(proxy.currentNodeTime(), ZoneId.of("UTC")).toString()
 
-    @GetMapping(value = "/addresses", produces = arrayOf("text/plain"))
+    @GetMapping(value = ["/addresses"], produces = arrayOf("text/plain"))
     private fun addresses() = proxy.nodeInfo().addresses.toString()
 
-    @GetMapping(value = "/identities", produces = arrayOf("text/plain"))
+    @GetMapping(value = ["/identities"], produces = arrayOf("text/plain"))
     private fun identities() = proxy.nodeInfo().legalIdentities.toString()
 
-    @GetMapping(value = "/platformversion", produces = arrayOf("text/plain"))
+    @GetMapping(value = ["/platformversion"], produces = arrayOf("text/plain"))
     private fun platformVersion() = proxy.nodeInfo().platformVersion.toString()
 
-    @GetMapping(value = "/peers", produces = arrayOf("text/plain"))
+    @GetMapping(value = ["/peers"], produces = arrayOf("text/plain"))
     private fun peers() = proxy.networkMapSnapshot().flatMap { it.legalIdentities }.toString()
 
-    @GetMapping(value = "/notaries", produces = arrayOf("text/plain"))
+    @GetMapping(value = ["/notaries"], produces = arrayOf("text/plain"))
     private fun notaries() = proxy.notaryIdentities().toString()
 
-    @GetMapping(value = "/flows", produces = arrayOf("text/plain"))
+    @GetMapping(value = ["/flows"], produces = arrayOf("text/plain"))
     private fun flows() = proxy.registeredFlows().toString()
 
-    @GetMapping(value = "/numbers", produces = arrayOf(APPLICATION_STREAM_JSON_VALUE))
-    @ResponseBody
-    fun getNumbers() = Flux.range(1, 100)
+//    @GetMapping(value = ["/numbers"], produces = arrayOf(APPLICATION_STREAM_JSON_VALUE))
+//    @ResponseBody
+//    fun getNumbers() = Flux.range(1, 100)
+
+    @GetMapping(value = ["/verifyDid"], produces = arrayOf("text/plain"))
+    private fun verifyDid(@PathVariable did: String) =  "{  'did': '$did', 'result': true}"
+
 
 }
