@@ -53,11 +53,9 @@ object CreateAccount {
 
             // testar se a DID informada está correta
 //            val validateUrl = "" // ????
-//
 //            val httpRequest = Request.Builder().url(validateUrl).build()
 //            val httpResponse = OkHttpClient().newCall(httpRequest).execute()
 //            if (httpResponse.body(result).equals(false)) { throw Exception("DID Inválida") }
-
 
             val accountList = getAccountStateByDocument(this.uid)
             if (accountList.isNotEmpty()) {
@@ -100,11 +98,14 @@ object CreateAccount {
             progressTracker.currentStep = FINALISING
 
             // finalizando
-            return subFlow(
-                FinalityFlow(signedTx,
-                    FINALISING.childProgressTracker()
-                )
-            )
+//            return subFlow(
+//                FinalityFlow(signedTx,
+//                    FINALISING.childProgressTracker()
+//                )
+//            )
+
+            return subFlow(FinalityFlow(signedTx, emptyList()))
+
 
         }
     }

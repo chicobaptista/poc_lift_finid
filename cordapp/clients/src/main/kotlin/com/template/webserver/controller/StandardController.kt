@@ -1,5 +1,7 @@
 package com.template.webserver.controllers
 
+import com.beust.klaxon.Json
+import com.beust.klaxon.Klaxon
 import com.template.state.AccountState
 import com.template.webserver.NodeRPCConnection
 import org.slf4j.LoggerFactory
@@ -7,13 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.bind.annotation.*
-import org.springframework.http.MediaType.APPLICATION_STREAM_JSON_VALUE
 import java.time.LocalDateTime
 import java.time.ZoneId
-import java.util.*
 
 import javax.ws.rs.core.MediaType.APPLICATION_JSON
-import javax.ws.rs.core.Response
 
 //import reactor.core.publisher.Flux
 
@@ -77,8 +76,19 @@ class StandardController(private val rpc: NodeRPCConnection) {
 //    @ResponseBody
 //    fun getNumbers() = Flux.range(1, 100)
 
-    @GetMapping(value = ["/verifyDid"], produces = arrayOf("text/plain"))
-    private fun verifyDid(@PathVariable did: String) =  "{  'did': '$did', 'result': true}"
+    @GetMapping(value = ["/verifyDid/{did}"], produces = arrayOf("text/plain"))
+    private fun verifyDid(@PathVariable did: String): String {
 
+        val str = Did(did = did, result = true)
+
+        // val did = { "did": $did, "result": true}
+        return Klaxon().toJsonString(str)
+    }
+
+    class Did(
+            @Json(name = "did")
+            val did: String,
+            @Json(name = "result")
+            val result: Boolean)
 
 }

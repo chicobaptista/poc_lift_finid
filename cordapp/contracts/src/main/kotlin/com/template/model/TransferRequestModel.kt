@@ -1,8 +1,9 @@
 package com.template.model
 
-data class AccountRequestModel (
-        val uid : String,
-        val name : String,
-        val did : String,
-        val balance : Double
+data class TransferRequestModel (
+        val accountFromId: String,
+        val orgTo: String,
+        val to: String,
+        val amount: Double,
+        val did: String
 )

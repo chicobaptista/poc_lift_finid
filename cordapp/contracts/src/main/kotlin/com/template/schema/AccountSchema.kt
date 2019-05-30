@@ -23,10 +23,13 @@ object AccountSchemaV1 : MappedSchema(
     class PersistentAccount(
 
         @Column(name = "uid")
-        var uid: String
+        var uid: String,
+
+        @Column(name = "did")
+        var did: String
 
     ) : PersistentState() {
         // Default constructor required by hibernate.
-        constructor(): this(uid = "")
+        constructor(): this(uid = "", did = "")
     }
 }
