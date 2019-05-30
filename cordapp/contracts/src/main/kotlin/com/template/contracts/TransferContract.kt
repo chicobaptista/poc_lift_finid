@@ -40,7 +40,6 @@ class TransferContract : Contract {
 
             val out = tx.outputsOfType<TransferState>().single()
 //            val imp = tx.inputsOfType<TransferState>().single()
-//
 //            "Balance do output maior que o do imput" using (imp. .balance > out.transfer.balance)
 //            "Valor deve ser positivo" using (out.transfer.balance > 0.00 || out.transfer.balance == 0.00)
             "Para transferência deve haver apenas uma conta de origem" using (tx.inputs.size == 1)
@@ -48,12 +47,10 @@ class TransferContract : Contract {
             "Valor deve ser positivo" using (out.transfer.amount > 0.00)
             "Remetente e destinatário devem ser diferentes" using (out.transfer.accountFrom != out.transfer.accountTo || out.transfer.orgFrom != out.transfer.orgTo)
 
-            val pubKey = getKey(out.transfer.pubkey.toByteArray())
-            val signature = Hex.decode(out.transfer.signature)
-
-            val b = Crypto.doVerify(Crypto.RSA_SHA256, pubKey, signature , out.transfer.message.toByteArray())
-
-            "Signature verification failed" using(b)
+//            val pubKey = getKey(out.transfer.pubkey.toByteArray())
+//            val signature = Hex.decode(out.transfer.signature)
+//            val b = Crypto.doVerify(Crypto.RSA_SHA256, pubKey, signature , out.transfer.message.toByteArray())
+//            "Signature verification failed" using(b)
         }
 
     }

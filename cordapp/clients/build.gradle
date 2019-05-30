@@ -11,13 +11,12 @@ sourceSets {
 dependencies {
     // Corda dependencies.
     compile "$corda_release_group:corda-rpc:$corda_release_version"
+    compile "$corda_release_group:corda-jackson:$corda_release_version"
 
     // CorDapp dependencies.
     compile project(":contracts")
     compile project(":workflows")
-
-    // JAX-RS 2.0(.1)
-    compile 'javax.ws.rs:javax.ws.rs-api:2.0.1'
+    
 
     compile("org.springframework.boot:spring-boot-starter-websocket:$spring_boot_version") {
         exclude group: "org.springframework.boot", module: "spring-boot-starter-logging"
@@ -27,8 +26,21 @@ dependencies {
     compile "org.apache.logging.log4j:log4j-web:${log4j_version}"
     compile "org.slf4j:jul-to-slf4j:$slf4j_version"
 
-    compile "io.projectreactor:reactor-core:3.3.0.M1"
-    testCompile("io.projectreactor:reactor-test:3.3.0.M1")
+    implementation 'com.beust:klaxon:5.0.1'
+
+    // JAX-RS 2.0(.1)
+    compile 'javax.ws.rs:javax.ws.rs-api:2.0.1'
+
+    // Jersey 2.15
+    compile 'org.glassfish.jersey.containers:jersey-container-servlet:2.15'
+
+    // Servlet 3
+    compile 'javax.servlet:javax.servlet-api:3.1.0'
+
+
+
+//    compile "io.projectreactor:reactor-core:3.3.0.M1"
+//    testCompile("io.projectreactor:reactor-test:3.3.0.M1")
 
 }
 

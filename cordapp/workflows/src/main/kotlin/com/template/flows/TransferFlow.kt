@@ -22,7 +22,7 @@ import java.time.Instant
 
 // flow start TransferFlow accountFromId: 37144a4a-c591-4cc0-bd16-d7d2d6f72971, orgTo: OrgB, to: f120697c-b454-491e-bda4-bbd61675054d, amount: 100.00
 // run vaultQuery contractStateType: tech.bluchain.democordanodes.state.TransferState
-object Transfer {
+object CreateTransfer {
 
     @InitiatingFlow
     @StartableByRPC
@@ -78,7 +78,7 @@ object Transfer {
             val sessionTo = initiateFlow(this.orgTo)
 
             // Obtendo o nome da conta de destino
-            val packNameTo: UntrustworthyData<String> = sessionTo.sendAndReceive<String>(this.to)
+            val packNameTo: UntrustworthyData<String> = sessionTo.sendAndReceive(this.to)
             val nameTo: String = packNameTo.unwrap { data -> data }
 
             // obtém a conta de origem para ser consumida
@@ -154,8 +154,7 @@ object Transfer {
 
             val finalityFlow = subFlow(FinalityFlow(signedTx, FINALISING.childProgressTracker()))
 
-
-            val pack : UntrustworthyData<SignedTransaction> = sessionTo.sendAndReceive<SignedTransaction>(signedTx)
+            val pack : UntrustworthyData<SignedTransaction> = sessionTo.sendAndReceive(signedTx)
 
             val partSignedTxRequired = pack.unwrap {data -> data }
 
@@ -322,7 +321,7 @@ object Transfer {
             // respondendo para a parte inicial para finalizar
             partyFlow.send(finalityFlow)
 
-            return finalityFlow;
+            return finalityFlow
 
         }
     }
