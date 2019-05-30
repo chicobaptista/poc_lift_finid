@@ -15,7 +15,6 @@ export const environment = {
   cordaOrgs : [
     { id: 'PartyA', cordaId: 'O=PartyA, L=London, C=GB'},
     { id: 'PartyB', cordaId: 'O=PartyB, L=New York, C=US'},
-    { id: 'PartyC', cordaId: 'O=PartyC, L=New York, C=US'},
   ]
 };
 
