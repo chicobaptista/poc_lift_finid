@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>onboarding</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <form [formGroup]="signupForm">
+    <ion-item>
+      <ion-label>
+        Nome:
+      </ion-label>
+      <ion-input formControlName="name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label>
+        CPF/CNPJ:
+      </ion-label>
+      <ion-input formControlName="govId"></ion-input>
+    </ion-item>
+    <ion-button (click)="signup()">Cadastrar</ion-button>
+  </form>
+
+</ion-content>
