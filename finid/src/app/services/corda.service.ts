@@ -30,11 +30,15 @@ export class CordaService {
 
   getUserBalance(uid) {
     return new Promise((resolve, reject) => {
-      this.http.get(`${environment.cordaApi}/balance/${uid}`)
+      const head = {
+        'Access-Control-Request-Origin': '*'
+      };
+      this.http.get(`${environment.cordaApi}/balance/${uid}`, {headers: head})
         .subscribe(
           (res: any) => {
             console.log(res); // DEVLOG
-            this.balance$.next(res);
+            const balance = res.entity.data.account.balance;
+            this.balance$.next(balance);
             resolve();
           },
           (err: any) => {
@@ -44,7 +48,7 @@ export class CordaService {
     });
   }
 
-  startPayment(paymentData: { uidFrom: string, uidTo: string, orgTo: string, amount: number }) {
+  startPayment(paymentData: { accountFromId: string, to: string, orgTo: string, amount: number, did: string }) {
     return new Promise((resolve, reject) => {
       this.http.post(`${environment.cordaApi}/make-transfer`, paymentData)
         .subscribe(

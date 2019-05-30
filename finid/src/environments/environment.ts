@@ -5,7 +5,7 @@
 /** @ignore */
 export const environment = {
   production: false,
-  cordaApi: 'http://localhost:50005',
+  cordaApi: 'http://localhost:10050',
   /**
    * TODO: refatorar este dicionário para um método parseOrg em corda.service ou equivalente
    * This is a list of known corda nodes with their respective IDs.
