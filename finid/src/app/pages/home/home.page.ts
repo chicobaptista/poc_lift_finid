@@ -59,6 +59,7 @@ export class HomePage {
     paymentM.onDidDismiss().then((res) => {
       const payment = res.data;
       console.log(payment); // DEVLOG
+      // TODO: Adicionar chamada de corda make-transfer aqui
     });
   }
 
