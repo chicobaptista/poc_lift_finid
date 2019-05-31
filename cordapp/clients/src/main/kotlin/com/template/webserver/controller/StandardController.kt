@@ -44,31 +44,39 @@ class StandardController(private val rpc: NodeRPCConnection) {
 
     private val proxy = rpc.proxy
 
-
+    @CrossOrigin
     @GetMapping(value = ["me"], produces = arrayOf(APPLICATION_JSON))
     fun whoami() = mapOf("me" to myLegalName)
 
+    @CrossOrigin
     @GetMapping(value = ["/status"], produces = arrayOf("text/plain"))
     private fun status() = "200"
 
+    @CrossOrigin
     @GetMapping(value = ["/servertime"], produces = arrayOf("text/plain"))
     private fun serverTime() = LocalDateTime.ofInstant(proxy.currentNodeTime(), ZoneId.of("UTC")).toString()
 
+    @CrossOrigin
     @GetMapping(value = ["/addresses"], produces = arrayOf("text/plain"))
     private fun addresses() = proxy.nodeInfo().addresses.toString()
 
+    @CrossOrigin
     @GetMapping(value = ["/identities"], produces = arrayOf("text/plain"))
     private fun identities() = proxy.nodeInfo().legalIdentities.toString()
 
+    @CrossOrigin
     @GetMapping(value = ["/platformversion"], produces = arrayOf("text/plain"))
     private fun platformVersion() = proxy.nodeInfo().platformVersion.toString()
 
+    @CrossOrigin
     @GetMapping(value = ["/peers"], produces = arrayOf("text/plain"))
     private fun peers() = proxy.networkMapSnapshot().flatMap { it.legalIdentities }.toString()
 
+    @CrossOrigin
     @GetMapping(value = ["/notaries"], produces = arrayOf("text/plain"))
     private fun notaries() = proxy.notaryIdentities().toString()
 
+    @CrossOrigin
     @GetMapping(value = ["/flows"], produces = arrayOf("text/plain"))
     private fun flows() = proxy.registeredFlows().toString()
 
@@ -76,6 +84,7 @@ class StandardController(private val rpc: NodeRPCConnection) {
 //    @ResponseBody
 //    fun getNumbers() = Flux.range(1, 100)
 
+    @CrossOrigin
     @GetMapping(value = ["/verifyDid/{did}"], produces = arrayOf("text/plain"))
     private fun verifyDid(@PathVariable did: String): String {
 

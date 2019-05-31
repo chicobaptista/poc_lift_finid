@@ -112,7 +112,7 @@ class Controller(rpc: NodeRPCConnection) {
 
             }
         }
-
+    @CrossOrigin
     @GetMapping(value = ["/balance/{uid}"], produces = arrayOf(MediaType.APPLICATION_JSON))
     private fun getBalanceById(@PathVariable uid: String) : Response {
 
@@ -132,6 +132,7 @@ class Controller(rpc: NodeRPCConnection) {
 
     }
 
+    @CrossOrigin
     @GetMapping(value = ["/transfer/{uid}"], produces = arrayOf(MediaType.APPLICATION_JSON))
     private fun getTransferById(@PathVariable uid: String) : Response {
 
