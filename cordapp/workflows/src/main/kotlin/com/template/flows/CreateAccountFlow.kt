@@ -11,6 +11,9 @@ import com.template.model.AccountModel
 import com.template.state.AccountState
 import java.time.Instant
 
+import okhttp3.OkHttpClient
+import okhttp3.Request
+
 object CreateAccount {
 
     @InitiatingFlow
@@ -51,11 +54,11 @@ object CreateAccount {
             // define progresso
             progressTracker.currentStep = INITIALISING
 
-            // testar se a DID informada está correta
-//            val validateUrl = "" // ????
-//            val httpRequest = Request.Builder().url(validateUrl).build()
-//            val httpResponse = OkHttpClient().newCall(httpRequest).execute()
-//            if (httpResponse.body(result).equals(false)) { throw Exception("DID Inválida") }
+//             testar se a DID informada está correta
+            val validateUrl = "http://localhost:10050/api/verifyDid/did:sov:23h23kskdl" // ????
+            val httpRequest = Request.Builder().url(validateUrl).build()
+            val httpResponse = OkHttpClient().newCall(httpRequest).execute()
+            if (!httpResponse.isSuccessful) { throw Exception("DID Inválida") }
 
             val accountList = getAccountStateByDocument(this.uid)
             if (accountList.isNotEmpty()) {
@@ -98,13 +101,13 @@ object CreateAccount {
             progressTracker.currentStep = FINALISING
 
             // finalizando
-//            return subFlow(
-//                FinalityFlow(signedTx,
-//                    FINALISING.childProgressTracker()
-//                )
-//            )
+            return subFlow(
+                FinalityFlow(signedTx,
+                    FINALISING.childProgressTracker()
+                )
+            )
 
-            return subFlow(FinalityFlow(signedTx, emptyList()))
+//            return subFlow(FinalityFlow(signedTx, emptyList()))
 
 
         }

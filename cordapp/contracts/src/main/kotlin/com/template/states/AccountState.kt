@@ -3,7 +3,7 @@ package com.template.state
 import com.template.contract.AccountContract
 import com.template.model.AccountModel
 import com.template.schema.AccountSchemaV1
-import net.corda.core.contracts.BelongsToContract
+//import net.corda.core.contracts.BelongsToContract
 import net.corda.core.contracts.LinearState
 import net.corda.core.contracts.UniqueIdentifier
 import net.corda.core.identity.AbstractParty
@@ -11,7 +11,7 @@ import net.corda.core.schemas.MappedSchema
 import net.corda.core.schemas.PersistentState
 import net.corda.core.schemas.QueryableState
 
-@BelongsToContract(AccountContract::class)
+//@BelongsToContract(AccountContract::class)
 data class AccountState(val account: AccountModel,
                       override val linearId: UniqueIdentifier = UniqueIdentifier()
 ) : LinearState, QueryableState {
