@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 import { BehaviorSubject } from 'rxjs';
+import * as $ from 'jquery';
 
 
 @Injectable({
@@ -30,21 +31,38 @@ export class CordaService {
 
   getUserBalance(uid) {
     return new Promise((resolve, reject) => {
-      const head = {
-        'Access-Control-Request-Origin': '*'
-      };
-      this.http.get(`${environment.cordaApi}/balance/${uid}`, {headers: head})
-        .subscribe(
-          (res: any) => {
-            console.log(res); // DEVLOG
-            const balance = res.entity.data.account.balance;
-            this.balance$.next(balance);
-            resolve();
-          },
-          (err: any) => {
-            console.log(err); // DEVLOG
-            reject(err);
-          });
+
+      const endpoint = `${environment.cordaApi}/balance/${uid}`;
+      $.ajax({
+        async: true,
+        crossDomain: true,
+        url: endpoint,
+        type: 'GET',
+        success: (response) => {
+            return resolve(response);
+        }
+    }).fail((jqXHR, textStatus, err) => {
+        console.log('Status: ', textStatus);
+        console.log('Error: ', err);
+        console.log('Message: ', jqXHR.responseText);
+        return reject(jqXHR.responseText);
+    });
+
+      // const head = {
+      //   'Access-Control-Request-Origin': '*'
+      // };
+      // this.http.get(`https://crossorigin.me/${environment.cordaApi}/balance/${uid}`, {headers: head})
+      //   .subscribe(
+      //     (res: any) => {
+      //       console.log(res); // DEVLOG
+      //       const balance = res.entity.data.account.balance;
+      //       this.balance$.next(balance);
+      //       resolve();
+      //     },
+      //     (err: any) => {
+      //       console.log(err); // DEVLOG
+      //       reject(err);
+      //     });
     });
   }
 
