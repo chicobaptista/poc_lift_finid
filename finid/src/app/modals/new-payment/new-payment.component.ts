@@ -30,7 +30,14 @@ export class NewPaymentComponent implements OnInit {
   }
 
   startPayment() {
-    this.modalCtrl.dismiss(this.paymentForm.value);
+    const paymentData = {
+      accountFromId: this.linearId,
+      // to: '' // TODO: refatorar para buscar linearId do destinatário
+      orgTo: this.paymentForm.value.orgTo,
+      amount: this.paymentForm.value.amount,
+      did: '123' // TODO: refatorar para did indy
+    };
+    this.modalCtrl.dismiss(paymentData);
   }
 
 }
