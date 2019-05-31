@@ -33,22 +33,9 @@ export class OnboardingPage implements OnInit {
           uid: this.signupForm.value.govId,
           name: this.signupForm.value.name,
           did: profile.did,
-          balance: 1000.00
         };
-        this.cordaSv.createUser(userData)
-        .then((res: any) => {
-          console.log(res); // DEVLOG
-          const userId = {
-            userDid: profile.did,
-            userGovId: this.signupForm.value.govId,
-            userName: this.signupForm.value.name
-          };
-          localStorage.setItem('userId', JSON.stringify(userId));
-          this.router.navigate(['/home']);
-        })
-        .catch(err => {
-          console.log(err); // DEVLOG
-        });
+        localStorage.setItem('userId', JSON.stringify(userData));
+        this.router.navigate(['/home']);
       });
   }
 }

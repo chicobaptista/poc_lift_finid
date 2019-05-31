@@ -14,9 +14,19 @@ export class CordaService {
 
   constructor(private http: HttpClient) { }
 
-  createUser(data: { uid: string, name: string, did: string, balance: number }) {
+  createUser(data: { uid: string, name: string, did: string},  balance: number, bank: string) {
     return new Promise((resolve, reject) => {
-      this.http.post(`${environment.cordaApi}/create-account`, data)
+      const newUser = {
+        uid: data.uid,
+        name: data.name,
+        did: data.did,
+        // tslint:disable-next-line:object-literal-shorthand
+        balance: balance,
+      };
+      const bankApi = environment.cordaOrgs.find((element) => {
+        return element.name === bank;
+      }).cordaApi;
+      this.http.post(`${bankApi}/create-account`, newUser)
         .subscribe(
           (res: any) => {
             console.log(res); // DEVLOG
@@ -29,40 +39,27 @@ export class CordaService {
     });
   }
 
-  getUserBalance(uid) {
+  getUserBalance(uid, bank) {
     return new Promise((resolve, reject) => {
 
-      const endpoint = `${environment.cordaApi}/balance/${uid}`;
-      $.ajax({
-        async: true,
-        crossDomain: true,
-        url: endpoint,
-        type: 'GET',
-        success: (response) => {
-            return resolve(response);
-        }
-    }).fail((jqXHR, textStatus, err) => {
-        console.log('Status: ', textStatus);
-        console.log('Error: ', err);
-        console.log('Message: ', jqXHR.responseText);
-        return reject(jqXHR.responseText);
-    });
-
-      // const head = {
-      //   'Access-Control-Request-Origin': '*'
-      // };
-      // this.http.get(`https://crossorigin.me/${environment.cordaApi}/balance/${uid}`, {headers: head})
-      //   .subscribe(
-      //     (res: any) => {
-      //       console.log(res); // DEVLOG
-      //       const balance = res.entity.data.account.balance;
-      //       this.balance$.next(balance);
-      //       resolve();
-      //     },
-      //     (err: any) => {
-      //       console.log(err); // DEVLOG
-      //       reject(err);
-      //     });
+      const head = {
+        'Access-Control-Request-Origin': '*'
+      };
+      const bankApi = environment.cordaOrgs.find((element) => {
+        return element.name === bank;
+      }).cordaApi;
+      this.http.get(`${bankApi}/balance/${uid}`, { headers: head })
+        .subscribe(
+          (res: any) => {
+            console.log(res); // DEVLOG
+            const balance = res.entity[0].state.data.account.balance;
+            this.balance$.next(balance);
+            resolve(balance);
+          },
+          (err: any) => {
+            console.log(err); // DEVLOG
+            reject(err);
+          });
     });
   }
 

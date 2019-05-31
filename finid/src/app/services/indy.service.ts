@@ -19,7 +19,7 @@ export class IndyService {
   createNewTransferDid() {
     return new Promise(resolve => {
       const transfer = {
-        did: 'did:sov:29wksjcn38djfh47ruqrtcd5'
+        did: 'did:sov:29wksjcn38djfh47rugdtdrtc34'
       };
       resolve(transfer);
     });

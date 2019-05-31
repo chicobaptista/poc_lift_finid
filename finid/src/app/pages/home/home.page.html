@@ -1,16 +1,44 @@
 <ion-header>
   <ion-toolbar>
     <ion-title>
-      Ionic Blank
+      Fin Id
     </ion-title>
   </ion-toolbar>
-
-  {{balance$}}
 </ion-header>
 
-<ion-content>
-  <div class="ion-padding">
-    The world is your oyster.
-    <p>If you get lost, the <a target="_blank" rel="noopener" href="https://ionicframework.com/docs/">docs</a> will be your guide.</p>
-  </div>
+<ion-content padding>
+<h1>Meus Bancos:</h1>
+
+<ng-container *ngIf="banks$.length !== 0; else elseTemplate">
+    <ion-card padding *ngFor="let bank of banks$">
+        <ion-card-title text-center>
+          {{bank}}
+        </ion-card-title>
+        <ion-card-content>
+          <ion-item>
+            <ion-text>Saldo</ion-text>
+            <ion-text slot="end">{{balance$?balance$[bank]:null}}</ion-text>
+          </ion-item>
+        </ion-card-content>
+        <div text-right>
+          <ion-button (click)="openPaymentModal()" fill="outline">Iniciar pagamento</ion-button>
+          <!-- <ion-button>Adicionar fundos</ion-button> -->
+        </div>  
+      </ion-card>
+</ng-container>
+<ng-template #elseTemplate>
+    <ion-card padding>
+        <ion-card-header text-center>
+          Nada para ver aqui
+        </ion-card-header>
+        <ion-card-content>
+          <ion-text>Você ainda não tem relacionamento com nenhum banco</ion-text>
+        </ion-card-content>
+      </ion-card>
+</ng-template>
+
+<div text-center>
+  <ion-button (click)="openBankModal()">Conectar novo banco</ion-button>
+</div>
+
 </ion-content>

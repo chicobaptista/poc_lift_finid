@@ -9,3 +9,13 @@
 @import '~@ionic/angular/css/text-alignment.css';
 @import '~@ionic/angular/css/text-transformation.css';
 @import '~@ionic/angular/css/flex-utils.css';
+
+
+.bank-modal .modal-wrapper{
+  height: 40%;
+  width: 80%;
+  top: 30%;
+  left: 10%;
+  // position: absolute; 
+  display: block;
+}

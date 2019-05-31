@@ -1,0 +1,12 @@
+<form [formGroup]="bankForm" padding>
+  <ion-item>
+    <ion-label>Banco</ion-label>
+    <ion-select formControlName="bank">
+      <ion-select-option *ngFor="let bank of bankList" [value]="bank.name">{{bank.name}}</ion-select-option>
+    </ion-select>
+  </ion-item>
+</form>
+
+  <div text-center padding>
+    <ion-button (click)="chooseBank()">Conectar</ion-button>
+  </div>

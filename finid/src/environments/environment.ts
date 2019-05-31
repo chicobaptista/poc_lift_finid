@@ -13,8 +13,8 @@ export const environment = {
    * The IDs are used with the API to indicate in which node the flow should start
    */
   cordaOrgs : [
-    { id: 'PartyA', cordaId: 'O=PartyA, L=London, C=GB'},
-    { id: 'PartyB', cordaId: 'O=PartyB, L=New York, C=US'},
+    { id: 'PartyA', cordaId: 'O=PartyA, L=London, C=GB', name: 'Banco Inc.', cordaApi: 'http://localhost:10050'},
+    { id: 'PartyB', cordaId: 'O=PartyB, L=New York, C=US', name: 'Banco Ltda', cordaApi: 'http://localhost:10060'},
   ]
 };
 
