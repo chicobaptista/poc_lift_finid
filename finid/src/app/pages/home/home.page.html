@@ -17,11 +17,11 @@
         <ion-card-content>
           <ion-item>
             <ion-text>Saldo</ion-text>
-            <ion-text slot="end">{{balance$?balance$[bank]:null}}</ion-text>
+            <ion-text slot="end">{{state$[bank]?state$[bank].account.balance:null}}</ion-text>
           </ion-item>
         </ion-card-content>
         <div text-right>
-          <ion-button (click)="openPaymentModal()" fill="outline">Iniciar pagamento</ion-button>
+          <ion-button (click)="openPaymentModal(bank, state$[bank].linearId.id)" fill="outline">Iniciar pagamento</ion-button>
           <!-- <ion-button>Adicionar fundos</ion-button> -->
         </div>  
       </ion-card>

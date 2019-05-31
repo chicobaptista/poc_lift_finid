@@ -10,7 +10,6 @@ import * as $ from 'jquery';
 })
 export class CordaService {
 
-  balance$ = new BehaviorSubject(null);
 
   constructor(private http: HttpClient) { }
 
@@ -52,9 +51,8 @@ export class CordaService {
         .subscribe(
           (res: any) => {
             console.log(res); // DEVLOG
-            const balance = res.entity[0].state.data.account.balance;
-            this.balance$.next(balance);
-            resolve(balance);
+            const data = res.entity[0].state.data;
+            resolve(data);
           },
           (err: any) => {
             console.log(err); // DEVLOG

@@ -3,6 +3,7 @@ import { BehaviorSubject } from 'rxjs';
 import { CordaService } from 'src/app/services/corda.service';
 import { ModalController } from '@ionic/angular';
 import { NewBankComponent } from 'src/app/modals/new-bank/new-bank.component';
+import { NewPaymentComponent } from 'src/app/modals/new-payment/new-payment.component';
 
 @Component({
   selector: 'app-home',
@@ -11,7 +12,7 @@ import { NewBankComponent } from 'src/app/modals/new-bank/new-bank.component';
 })
 export class HomePage {
 
-  balance$ = [];
+  state$ = [];
   banks$ = [];
 
   constructor(
@@ -29,7 +30,9 @@ export class HomePage {
     this.banks$.forEach(bank => {
       this.cordaSv.getUserBalance(user.uid, bank)
       .then((res) => {
-        this.balance$[bank] = res;
+        this.state$[bank] = res;
+        // console.log(this.state$);
+        // console.log(this.state$[bank].account.balance);
       });
     });
   }
@@ -42,8 +45,21 @@ export class HomePage {
     console.log(this.banks$); // DEVLOG
   }
 
-  openPaymentModal() {
+  async openPaymentModal(bankName, id) {
     console.log('pay modal click');
+    const paymentM = await this.modalCtrl.create({
+      component: NewPaymentComponent,
+      cssClass: 'bank-modal',
+      componentProps: {
+        bank: bankName,
+        linearId: id
+      }
+    });
+    paymentM.present();
+    paymentM.onDidDismiss().then((res) => {
+      const payment = res.data;
+      console.log(payment); // DEVLOG
+    });
   }
 
   async openBankModal() {

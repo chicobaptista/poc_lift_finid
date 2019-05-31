@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 
 import { HomePage } from './home.page';
 import { NewBankComponent } from 'src/app/modals/new-bank/new-bank.component';
+import { NewPaymentComponent } from 'src/app/modals/new-payment/new-payment.component';
 
 @NgModule({
   imports: [
@@ -20,9 +21,10 @@ import { NewBankComponent } from 'src/app/modals/new-bank/new-bank.component';
       }
     ])
   ],
-  declarations: [HomePage, NewBankComponent],
+  declarations: [HomePage, NewBankComponent, NewPaymentComponent],
   entryComponents: [
-    NewBankComponent
+    NewBankComponent,
+    NewPaymentComponent,
   ]
 })
 export class HomePageModule {}
