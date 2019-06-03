@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
 import { CordaService } from 'src/app/services/corda.service';
 import { ModalController } from '@ionic/angular';
 import { NewBankComponent } from 'src/app/modals/new-bank/new-bank.component';
@@ -46,7 +45,7 @@ export class HomePage {
   }
 
   async openPaymentModal(bankName, id) {
-    console.log('pay modal click');
+    console.log('pay modal click'); // DEVLOG
     const paymentM = await this.modalCtrl.create({
       component: NewPaymentComponent,
       cssClass: 'bank-modal',
@@ -61,14 +60,25 @@ export class HomePage {
       console.log(payment); // DEVLOG
       this.getUserId(payment.to, payment.orgTo)
       .then(linearId => {
-        // TODO: Adicionar chamada de corda make-transfer aqui
-        console.log(linearId);
+        console.log(linearId); // DEVLOG
+        const paymentData = {
+          accountFromId: id,
+          to: linearId,
+          orgTo: payment.orgTo,
+          amount: payment.amount,
+          did: 'payment123',
+        };
+        this.cordaSv.startPayment(paymentData)
+        .then(transferReceipt => {
+          // TODO: Adicionar aviso ao usuário do retorno da transferência no corda.
+          console.log(transferReceipt); // DEVLOG
+        });
       });
     });
   }
 
   async openBankModal() {
-    console.log('bank modal click');
+    console.log('bank modal click'); // DEVLOG
     const bankM = await this.modalCtrl.create({
       component: NewBankComponent,
       cssClass: 'bank-modal'
@@ -96,7 +106,7 @@ export class HomePage {
     this.cordaSv.createUser(user, 1000.00, bank);
   }
 
-  private getUserId(govId, bank) {
+  private getUserId(govId, bank): Promise<string> {
     return new Promise((resolve, reject) => {
       this.cordaSv.getUserBalance(govId, bank)
       .then((res: any) => {
