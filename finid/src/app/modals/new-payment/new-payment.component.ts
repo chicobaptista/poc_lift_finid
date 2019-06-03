@@ -18,6 +18,7 @@ export class NewPaymentComponent implements OnInit {
   paymentForm = new FormGroup({
     orgFrom: new FormControl(),
     amount: new FormControl(),
+    accountTo: new FormControl(),
     orgTo: new FormControl()
   });
 
@@ -32,7 +33,7 @@ export class NewPaymentComponent implements OnInit {
   startPayment() {
     const paymentData = {
       accountFromId: this.linearId,
-      // to: '' // TODO: refatorar para buscar linearId do destinatário
+      to: this.paymentForm.value.accountTo, // TODO: refatorar para buscar linearId do destinatário
       orgTo: this.paymentForm.value.orgTo,
       amount: this.paymentForm.value.amount,
       did: '123' // TODO: refatorar para did indy

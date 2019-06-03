@@ -18,7 +18,7 @@ export class HomePage {
   constructor(
     private cordaSv: CordaService,
     private modalCtrl: ModalController
-  ) {}
+  ) { }
 
   ionViewDidEnter() {
     this.getBanks();
@@ -29,11 +29,11 @@ export class HomePage {
     const user = JSON.parse(localStorage.getItem('userId'));
     this.banks$.forEach(bank => {
       this.cordaSv.getUserBalance(user.uid, bank)
-      .then((res) => {
-        this.state$[bank] = res;
-        // console.log(this.state$);
-        // console.log(this.state$[bank].account.balance);
-      });
+        .then((res) => {
+          this.state$[bank] = res;
+          // console.log(this.state$);
+          // console.log(this.state$[bank].account.balance);
+        });
     });
   }
 
@@ -59,7 +59,11 @@ export class HomePage {
     paymentM.onDidDismiss().then((res) => {
       const payment = res.data;
       console.log(payment); // DEVLOG
-      // TODO: Adicionar chamada de corda make-transfer aqui
+      this.getUserId(payment.to, payment.orgTo)
+      .then(linearId => {
+        // TODO: Adicionar chamada de corda make-transfer aqui
+        console.log(linearId);
+      });
     });
   }
 
@@ -73,19 +77,32 @@ export class HomePage {
     bankM.onDidDismiss().then((res: any) => {
       const bank = res.data.bank;
       console.log(bank); // DEVLOG
-      if (bank && !this.banks$.find(el => el === bank)) {
-        this.banks$.push(bank);
-        localStorage.setItem('bankList', JSON.stringify(this.banks$));
-        this.createNewBankAccount(bank);
-        this.getBanks();
-        this.getBalance();
-      }
+      this.addNewBank(bank);
     });
   }
 
-  createNewBankAccount(bank) {
+  private addNewBank(bank) {
+    if (bank && !this.banks$.find(el => el === bank)) {
+      this.banks$.push(bank);
+      localStorage.setItem('bankList', JSON.stringify(this.banks$));
+      this.createNewBankAccount(bank);
+      this.getBanks();
+      this.getBalance();
+    }
+  }
+
+  private createNewBankAccount(bank) {
     const user = JSON.parse(localStorage.getItem('userId'));
     this.cordaSv.createUser(user, 1000.00, bank);
+  }
+
+  private getUserId(govId, bank) {
+    return new Promise((resolve, reject) => {
+      this.cordaSv.getUserBalance(govId, bank)
+      .then((res: any) => {
+        resolve(res.linearId.id);
+      });
+    });
   }
 
 }

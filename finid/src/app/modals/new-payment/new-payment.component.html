@@ -1,22 +1,26 @@
 <form [formGroup]="paymentForm" padding>
-    <ion-item>
-      <ion-label>Banco de origem</ion-label>
-      <ion-select formControlName="orgFrom">
-        <ion-select-option *ngFor="let bank of bankList" [value]="bank.name">{{bank.name}}</ion-select-option>
-      </ion-select>
-    </ion-item>
-    <ion-item>
-      <ion-label>Banco de destino</ion-label>
-      <ion-select formControlName="orgTo">
-          <ion-select-option *ngFor="let bank of bankList" [value]="bank.name">{{bank.name}}</ion-select-option>
-        </ion-select>
-    </ion-item>
-    <ion-item>
-      <ion-label>Valor</ion-label>
-      <ion-input type="number" formControlName="amount"></ion-input>
-    </ion-item>
-  </form>
-  
-    <div text-center padding>
-      <ion-button (click)="startPayment()">Conectar</ion-button>
-    </div>
+  <ion-item>
+    <ion-label>Banco de origem</ion-label>
+    <ion-select formControlName="orgFrom">
+      <ion-select-option *ngFor="let bank of bankList" [value]="bank.name">{{bank.name}}</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label>Banco de destino</ion-label>
+    <ion-select formControlName="orgTo">
+      <ion-select-option *ngFor="let bank of bankList" [value]="bank.name">{{bank.name}}</ion-select-option>
+    </ion-select>
+  </ion-item>
+  <ion-item>
+    <ion-label>Conta de destino</ion-label>
+    <ion-input type="text" formControlName="accountTo"></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label>Valor</ion-label>
+    <ion-input type="number" formControlName="amount"></ion-input>
+  </ion-item>
+</form>
+
+<div text-center padding>
+  <ion-button (click)="startPayment()">Conectar</ion-button>
+</div>
